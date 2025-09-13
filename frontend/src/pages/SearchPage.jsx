@@ -28,40 +28,43 @@ const SearchPage = () => {
   const quickTerms = ['sunset', 'mountains', 'ocean', 'city', 'nature']
 
   return (
-    <div className="min-h-screen bg-zinc-800 flex flex-col items-center px-6">
+    <div className="min-h-screen flex flex-col items-center px-6">
       <div className="w-full max-w-5xl mt-24">
-        <div className="relative mb-8 w-full max-w-2xl mx-auto">
+        {/* Pill search */}
+        <div className="relative w-full max-w-2xl mx-auto">
           <input
             type="text"
             value={q}
             onChange={(e) => setQ(e.target.value)}
             onKeyDown={onKeyDown}
             placeholder="search your images..."
-            className="w-full px-5 py-4 pr-16 rounded-2xl bg-zinc-700/80 border border-zinc-600/50 text-white placeholder-zinc-300 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50"
+            className="w-full pl-5 pr-16 py-4 rounded-full bg-white/5 border border-white/10 text-white placeholder-white/60 text-lg ring-focus"
           />
           <button
+            aria-label="search"
             onClick={onSearch}
-            className="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white"
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-blue-600 hover:bg-blue-700 text-white transition-base"
           >
-            search
+            <svg className="w-5 h-5 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="m21 21-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z" />
+            </svg>
           </button>
         </div>
 
-        <div className="text-center text-gray-400 mb-6">
+        <div className="text-center text-white/70 mt-6">
           {!results.length && !loading && !error && (
-            <p>try searching for something like "sunset over mountains"</p>
+            <p>try something like “a sunset over mountains”</p>
           )}
-          {loading && <p>searching...</p>}
+          {loading && <p>searching…</p>}
           {error && <p className="text-red-400">{error}</p>}
         </div>
 
         {!!results.length && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-6">
             {results.map((item) => (
-              <div key={item.id} className="rounded-lg overflow-hidden bg-white/5 border border-white/10">
-                <div className="aspect-square bg-zinc-900 flex items-center justify-center">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={item.s3_url} alt={item.caption || item.filename} className="w-full h-full object-cover" />
+              <div key={item.id} className="rounded-xl overflow-hidden card">
+                <div className="aspect-square bg-black">
+                  <img loading="lazy" src={item.s3_url} alt={item.caption || item.filename} className="w-full h-full object-cover" />
                 </div>
                 <div className="p-3 text-left">
                   <p className="text-sm text-white/90 truncate" title={item.caption}>{item.caption || 'no caption'}</p>
@@ -76,8 +79,8 @@ const SearchPage = () => {
           {quickTerms.map((term) => (
             <button
               key={term}
-              onClick={() => { setQ(term); }}
-              className="px-4 py-2 rounded-full bg-zinc-700/50 border border-zinc-600/50 text-zinc-300 hover:text-white hover:bg-zinc-600/50"
+              onClick={() => { setQ(term) }}
+              className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white/80 hover:text-white transition-base"
             >
               {term}
             </button>
