@@ -7,9 +7,9 @@ import './App.css'
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-zinc-800 text-white font-mono">
+      <div className="min-h-screen">
         <Navigation />
-        <main className="pt-24">
+        <main className="pt-14">
           <Routes>
             <Route path="/" element={<SearchPage />} />
             <Route path="/gallery" element={<GalleryPage />} />
