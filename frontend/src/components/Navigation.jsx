@@ -72,19 +72,15 @@ const Navigation = () => {
   }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 glass">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="flex items-center justify-between h-16">
-          {/* Brand */}
-          <div className="flex items-center">
-            <h1 className="text-base font-semibold tracking-wider text-white/90">PixFind</h1>
-          </div>
-
-          {/* Center nav */}
-          <div className="flex items-center gap-6">
+    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-black/40 backdrop-blur-md">
+      <div className="max-w-6xl mx-auto px-4">
+        <div className="flex items-center justify-between h-14">
+          {/* Left: brand + nav */}
+          <div className="flex items-center gap-4">
+            <span className="text-white font-semibold">PixFind</span>
             <Link
               to="/"
-              className={`px-4 py-2 rounded-full transition-base ${
+              className={`px-3 py-1.5 rounded-full text-sm transition-base ${
                 isActive('/') ? 'bg-white/10 text-white' : 'text-white/70 hover:text-white hover:bg-white/5'
               }`}
             >
@@ -92,7 +88,7 @@ const Navigation = () => {
             </Link>
             <Link
               to="/gallery"
-              className={`px-4 py-2 rounded-full transition-base ${
+              className={`px-3 py-1.5 rounded-full text-sm transition-base ${
                 isActive('/gallery') ? 'bg-white/10 text-white' : 'text-white/70 hover:text-white hover:bg-white/5'
               }`}
             >
@@ -100,25 +96,23 @@ const Navigation = () => {
             </Link>
           </div>
 
-          {/* Right controls */}
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setShowUploadModal(true)}
-              className="w-10 h-10 rounded-full border border-white/20 bg-white/5 hover:bg-white/10 transition-base flex items-center justify-center"
-              title="Upload (Admin only)"
-            >
-              <svg className="w-5 h-5 text-white/90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-              </svg>
-            </button>
-          </div>
+          {/* Right: plus button */}
+          <button
+            onClick={() => setShowUploadModal(true)}
+            className="w-9 h-9 rounded-full border border-white/15 bg-white/5 hover:bg-white/10 transition-base flex items-center justify-center"
+            title="Upload (Admin only)"
+          >
+            <svg className="w-5 h-5 text-white/90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+          </button>
         </div>
       </div>
 
       {/* Upload Modal */}
       {showUploadModal && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
-          <div className="glass rounded-xl p-6 max-w-md w-full mx-4">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center">
+          <div className="rounded-xl p-6 max-w-md w-full mx-4 border border-white/10 bg-black/70">
             <h3 className="text-lg font-semibold mb-4">Admin Upload</h3>
             {!loggedIn ? (
               <div>
