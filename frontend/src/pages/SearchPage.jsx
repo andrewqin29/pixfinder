@@ -38,20 +38,11 @@ const SearchPage = () => {
             onChange={(e) => setQ(e.target.value)}
             onKeyDown={onKeyDown}
             placeholder="search your images..."
-            className="w-full h-[50px] pl-5 pr-14 rounded-full bg-white/5 border border-white/10 text-white placeholder-white/60 text-base ring-focus"
+            className="w-full h-[50px] pl-5 pr-5 rounded-full bg-white/5 border border-white/10 text-white placeholder-white/60 text-base ring-focus"
           />
-          <button
-            aria-label="search"
-            onClick={onSearch}
-            className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-blue-600 hover:bg-blue-700 text-white transition-base"
-          >
-            <svg className="w-5 h-5 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="m21 21-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z" />
-            </svg>
-          </button>
         </div>
 
-        <div className="text-center text-white/70 mt-10 text-sm">
+        <div className="text-center text-white/70 mt-[60px] text-sm">
           {!results.length && !loading && !error && (
             <p>try something like "a sunset over mountains"</p>
           )}
@@ -73,7 +64,7 @@ const SearchPage = () => {
           </div>
         )}
 
-        <div className="flex flex-wrap justify-center gap-5 mt-10">
+        <div className="flex flex-wrap justify-center gap-[10px] mt-10">
           {quickTerms.map((term) => (
             <button
               key={term}
