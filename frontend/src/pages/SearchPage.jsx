@@ -38,7 +38,7 @@ const SearchPage = () => {
             onChange={(e) => setQ(e.target.value)}
             onKeyDown={onKeyDown}
             placeholder="search your images..."
-            className="w-full h-[50px] pl-5 pr-5 rounded-full bg-white/5 border border-white/10 text-white placeholder-white/60 text-base ring-focus"
+            className="w-full h-[50px] pl-[10px] pr-5 rounded-full bg-white/5 border border-white/10 text-white placeholder-zinc-500 placeholder:opacity-100 text-lg ring-focus"
           />
         </div>
 
