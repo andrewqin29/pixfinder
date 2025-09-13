@@ -40,6 +40,11 @@ const SearchPage = () => {
             placeholder="search your images..."
             className="bg-white/5 border border-white/10 text-white placeholder-zinc-500 placeholder:opacity-100 ring-focus"
           />
+          <button id="search-button" aria-label="search" onClick={onSearch}>
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="m21 21-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z" />
+            </svg>
+          </button>
         </div>
 
         <div id="search-examples" className="text-center text-white/70">

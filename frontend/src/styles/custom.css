@@ -7,6 +7,7 @@
   --search-height: 50px;
   --search-padding-left: 20px;
   --search-padding-right: 20px;
+  --search-button-gap: 8px; /* space between input edge and button */
   --search-font-size: 1.2rem;
 
   /* examples */
@@ -15,9 +16,9 @@
 
   /* example pills */
   --pills-gap: 10px;
-  --pill-padding-x: 18px; /* px-6 */
-  --pill-padding-y: 10px; /* py-3 */
-  --pill-font-size: 0.95rem; /* pill text size */
+  --pill-padding-x: 12px; /* px-6 */
+  --pill-padding-y: 6px; /* py-3 */
+  --pill-font-size: 1.0rem; /* pill text size */
 }
 
 /* Search layout */
@@ -34,7 +35,7 @@
   width: 100%;
   height: var(--search-height);
   padding-left: var(--search-padding-left);
-  padding-right: var(--search-padding-right);
+  padding-right: calc(var(--search-padding-right) + var(--search-height) + var(--search-button-gap));
   font-size: var(--search-font-size);
   border-radius: 9999px;
 }
@@ -62,3 +63,21 @@
   border-radius: 9999px;
   font-size: var(--pill-font-size);
 }
+
+/* Search button */
+#search-button {
+  position: absolute;
+  top: 50%;
+  right: var(--search-padding-right);
+  transform: translateY(-50%);
+  width: var(--search-height);
+  height: var(--search-height);
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: white;
+}
+#search-button:hover { background: rgba(255,255,255,0.08); }
