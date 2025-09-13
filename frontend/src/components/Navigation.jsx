@@ -72,37 +72,23 @@ const Navigation = () => {
   }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-black/40 backdrop-blur-md">
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="flex items-center justify-between h-14">
-          {/* Left: brand + nav */}
-          <div className="flex items-center gap-4">
-            <span className="text-white font-semibold">PixFind</span>
-            <Link
-              to="/"
-              className={`px-3 py-1.5 rounded-full text-sm transition-base ${
-                isActive('/') ? 'bg-white/10 text-white' : 'text-white/70 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              Search
-            </Link>
-            <Link
-              to="/gallery"
-              className={`px-3 py-1.5 rounded-full text-sm transition-base ${
-                isActive('/gallery') ? 'bg-white/10 text-white' : 'text-white/70 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              Gallery
-            </Link>
-          </div>
+    <nav id="nav-bar" className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-black/40 backdrop-blur-md">
+      <div id="nav-inner">
+        {/* Left: brand + links */}
+        <div id="nav-left">
+          <span id="nav-brand">PixFind</span>
+          <Link to="/" className={`nav-link transition-base ${isActive('/') ? 'text-white' : ''}`}>Search</Link>
+          <Link to="/gallery" className={`nav-link transition-base ${isActive('/gallery') ? 'text-white' : ''}`}>Gallery</Link>
+        </div>
 
-          {/* Right: plus button */}
+        {/* Right: admin button */}
+        <div id="nav-right">
           <button
+            id="nav-admin-btn"
             onClick={() => setShowUploadModal(true)}
-            className="w-9 h-9 rounded-full border border-white/15 bg-white/5 hover:bg-white/10 transition-base flex items-center justify-center"
             title="Upload (Admin only)"
           >
-            <svg className="w-5 h-5 text-white/90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
             </svg>
           </button>

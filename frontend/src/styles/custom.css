@@ -7,7 +7,6 @@
   --search-height: 50px;
   --search-padding-left: 20px;
   --search-padding-right: 20px;
-  --search-button-gap: 8px; /* space between input edge and button */
   --search-font-size: 1.2rem;
 
   /* examples */
@@ -35,7 +34,7 @@
   width: 100%;
   height: var(--search-height);
   padding-left: var(--search-padding-left);
-  padding-right: calc(var(--search-padding-right) + var(--search-height) + var(--search-button-gap));
+  padding-right: var(--search-padding-right);
   font-size: var(--search-font-size);
   border-radius: 9999px;
 }
@@ -64,22 +63,42 @@
   font-size: var(--pill-font-size);
 }
 
-/* Search button */
-#search-button {
-  position: absolute;
-  top: 50%;
-  right: var(--search-padding-right);
-  transform: translateY(-50%);
-  width: var(--search-height);
-  height: var(--search-height);
+/* Navbar variables and layout */
+  --nav-gap: 15px;            /* spacing between brand/links */
+  --nav-padding-x: 16px;      /* horizontal padding */
+  --nav-font-size: 0.95rem;   /* link text size */
+  --nav-brand-size: 1rem;     /* brand text size */
+  --nav-btn-size: 36px;       /* admin button diameter */
+  --nav-btn-bg: #ffffff;      /* admin button background */
+  --nav-btn-icon: #0b0f15;    /* admin button icon color */
+}
+
+#nav-bar { width: 100%; height: var(--nav-height); }
+
+#nav-inner {
+  max-width: 72rem; /* match container */
+  height: var(--nav-height);
+  margin: 0 auto;
+  padding: 0 var(--nav-padding-x);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#nav-left { display: flex; align-items: center; gap: var(--nav-gap); }
+
+#nav-brand { font-size: var(--nav-brand-size); font-weight: 600; color: #fff; }
+.nav-link { font-size: var(--nav-font-size); color: rgba(255,255,255,0.7); }
+.nav-link:hover { color: #fff; }
+
+#nav-right { display: flex; align-items: center; }
+#nav-admin-btn {
+  width: var(--nav-btn-size);
+  height: var(--nav-btn-size);
   border-radius: 9999px;
+  background: var(--nav-btn-bg);
+  color: var(--nav-btn-icon);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
-  color: #ffffff;
-  z-index: 10;
-  cursor: pointer;
 }
-#search-button:hover { background: rgba(255,255,255,0.08); }
