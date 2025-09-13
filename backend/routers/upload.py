@@ -21,7 +21,13 @@ router = APIRouter()
 
 # Allowed image types
 ALLOWED_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.webp', '.heic', '.heif'}
-MAX_FILE_SIZE = 10 * 1024 * 1024  # 10MB
+
+def _max_file_size_bytes() -> int:
+    try:
+        mb = int(os.getenv("MAX_FILE_SIZE_MB", "10"))
+    except ValueError:
+        mb = 10
+    return mb * 1024 * 1024
 
 
 def validate_image_file(file: UploadFile) -> bool:
@@ -32,7 +38,7 @@ def validate_image_file(file: UploadFile) -> bool:
         return False
     
     # Check file size (approximate, since we haven't read it yet)
-    if hasattr(file, 'size') and file.size > MAX_FILE_SIZE:
+    if hasattr(file, 'size') and file.size > _max_file_size_bytes():
         return False
     
     return True
@@ -57,7 +63,7 @@ async def upload_single_image(
     try:
         # Read uploaded bytes
         content = await file.read()
-        if len(content) > MAX_FILE_SIZE:
+        if len(content) > _max_file_size_bytes():
             return {
                 "filename": file.filename,
                 "success": False,
@@ -76,6 +82,7 @@ async def upload_single_image(
         }.get(file_ext, "application/octet-stream")
 
         stored_path = None
+        temp_local_path = None
         if s3_manager.is_configured():
             key = f"images/{datetime.utcnow().strftime('%Y/%m/%d')}/{uuid4().hex}{file_ext}"
             url = s3_manager.upload_bytes(key, content, content_type=content_type, public=True)
@@ -86,20 +93,24 @@ async def upload_single_image(
             # For embedding/caption generation, save to a temp local file
             upload_dir = "/app/uploads" if os.path.exists("/app") else "./uploads"
             os.makedirs(upload_dir, exist_ok=True)
-            file_path = os.path.join(upload_dir, f"tmp-{uuid4().hex}{file_ext}")
-            with open(file_path, "wb") as f:
+            temp_local_path = os.path.join(upload_dir, f"tmp-{uuid4().hex}{file_ext}")
+            with open(temp_local_path, "wb") as f:
                 f.write(content)
         else:
             upload_dir = "/app/uploads" if os.path.exists("/app") else "./uploads"
             os.makedirs(upload_dir, exist_ok=True)
-            file_path = os.path.join(upload_dir, file.filename)
+            unique_name = f"{uuid4().hex}{file_ext}"
+            file_path = os.path.join(upload_dir, unique_name)
             with open(file_path, "wb") as f:
                 f.write(content)
-            stored_path = file_path
+            # Public URL for locally stored files
+            stored_path = f"/uploads/{unique_name}"
 
         # Generate AI content
-        embedding = generate_image_embedding(file_path)
-        caption = generate_image_caption(file_path)
+        # Choose path to process: temp local for S3, else saved local path
+        process_path = temp_local_path if temp_local_path else file_path
+        embedding = generate_image_embedding(process_path)
+        caption = generate_image_caption(process_path)
         
         # Check for AI failures
         if embedding is None:
@@ -128,19 +139,26 @@ async def upload_single_image(
         if faiss_success:
             faiss_manager.save_index()
         
-        return {
+        result = {
             "filename": file.filename,
             "success": True,
             "id": db_image.id,
             "caption": caption
         }
+        # Clean up temp file if used
+        if temp_local_path and os.path.exists(temp_local_path):
+            try:
+                os.remove(temp_local_path)
+            except Exception:
+                pass
+        return result
         
     except Exception as e:
         logger.error(f"Upload failed for {file.filename}: {e}")
         # Clean up file if it was created
-        if 'file_path' in locals() and os.path.exists(file_path):
+        if 'temp_local_path' in locals() and temp_local_path and os.path.exists(temp_local_path):
             try:
-                os.remove(file_path)
+                os.remove(temp_local_path)
             except Exception:
                 pass
         
