@@ -18,7 +18,7 @@ def _resolve_sqlite_url() -> str:
     """Resolve a stable SQLite file path under data directory."""
     data_dir = "/app/data" if os.path.exists("/app") else "./data"
     os.makedirs(data_dir, exist_ok=True)
-    db_path = os.path.join(data_dir, "pixfinder.db")
+    db_path = os.path.join(data_dir, "pique.db")
     return f"sqlite:///{db_path}"
 
 
@@ -67,4 +67,4 @@ def get_db_path():
     """Get the database file path"""
     data_dir = "/app/data" if os.path.exists("/app") else "./data"
     os.makedirs(data_dir, exist_ok=True)
-    return os.path.join(data_dir, "pixfinder.db")
+    return os.path.join(data_dir, "pique.db")

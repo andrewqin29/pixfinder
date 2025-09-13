@@ -15,7 +15,7 @@ load_dotenv()
 
 # Create the FastAPI application instance
 app = FastAPI(
-    title="PixFinder API",
+    title="Pique API",
     description="Semantic photo library with natural language search",
     version="1.0.0",
 )
@@ -72,13 +72,13 @@ async def startup_event():
     if not faiss_initialized:
         print("WARNING: FAISS index failed to initialize!")
     
-    print("PixFinder API started successfully!")
+    print("Pique API started successfully!")
 
 
 @app.get("/")
 async def root():
     """Basic health check - returns when API is running"""
-    return {"message": "PixFinder API is running", "status": "healthy"}
+    return {"message": "Pique API is running", "status": "healthy"}
 
 
 @app.get("/health")

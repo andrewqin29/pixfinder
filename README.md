@@ -1,4 +1,4 @@
-# PixFinder
+# Pique
 
 A semantic photo library where you can search for uploaded images using natural language.
 

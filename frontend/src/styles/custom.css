@@ -6,6 +6,15 @@
   --nav-circle-gap: 24px;    /* spacing between circles */
   --nav-circle-bg: #ffffff;  /* white circles */
   --nav-circle-icon: #0b0f15;/* dark icon */
+  --nav-active-ring: rgba(59,130,246,0.6);
+  --nav-active-ring-width: 2px;
+  --nav-gap: 15px;            /* spacing between brand/links */
+  --nav-padding-x: 16px;      /* horizontal padding */
+  --nav-font-size: 0.95rem;   /* link text size */
+  --nav-brand-size: 1rem;     /* brand text size */
+  --nav-btn-size: 36px;       /* admin button diameter */
+  --nav-btn-bg: #ffffff;      /* admin button background */
+  --nav-btn-icon: #0b0f15;    /* admin button icon color */
 
   /* search */
   --search-width: 75vw;
@@ -69,13 +78,6 @@
 }
 
 /* Navbar variables and layout */
-  --nav-gap: 15px;            /* spacing between brand/links */
-  --nav-padding-x: 16px;      /* horizontal padding */
-  --nav-font-size: 0.95rem;   /* link text size */
-  --nav-brand-size: 1rem;     /* brand text size */
-  --nav-btn-size: 36px;       /* admin button diameter */
-  --nav-btn-bg: #ffffff;      /* admin button background */
-  --nav-btn-icon: #0b0f15;    /* admin button icon color */
 
 #nav-bar { width: 100%; height: var(--nav-height); }
 
@@ -108,3 +110,4 @@
   border: 1px solid rgba(255,255,255,0.2);
 }
 .nav-circle svg { width: 22px; height: 22px; }
+.nav-circle.active { box-shadow: 0 0 0 var(--nav-active-ring-width) var(--nav-active-ring); }
