@@ -51,7 +51,7 @@ const SearchPage = () => {
           </button>
         </div>
 
-        <div className="text-center text-white/70 mt-6 text-sm">
+        <div className="text-center text-white/70 mt-10 text-sm">
           {!results.length && !loading && !error && (
             <p>try something like "a sunset over mountains"</p>
           )}
@@ -73,12 +73,12 @@ const SearchPage = () => {
           </div>
         )}
 
-        <div className="flex flex-wrap justify-center gap-3 mt-8">
+        <div className="flex flex-wrap justify-center gap-5 mt-10">
           {quickTerms.map((term) => (
             <button
               key={term}
               onClick={() => { setQ(term) }}
-              className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white/80 hover:text-white transition-base"
+              className="px-6 py-3 rounded-full bg-white/5 border border-white/10 text-white/80 hover:text-white transition-base"
             >
               {term}
             </button>
