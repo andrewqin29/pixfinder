@@ -3,6 +3,7 @@ import Navigation from './components/Navigation'
 import SearchPage from './pages/SearchPage'
 import GalleryPage from './pages/GalleryPage'
 import './App.css'
+import './styles/custom.css'
 
 function App() {
   return (

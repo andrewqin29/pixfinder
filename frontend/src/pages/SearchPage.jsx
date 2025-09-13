@@ -28,21 +28,21 @@ const SearchPage = () => {
   const quickTerms = ['sunset', 'mountains', 'ocean', 'city', 'nature']
 
   return (
-    <div className="min-h-[calc(100vh-56px)] flex items-center justify-center px-4">
-      <div className="w-3/4">
+    <div id="search-root" className="px-4">
+      <div id="search-container">
         {/* centered pill search */}
         <div className="relative w-full mx-auto">
-          <input
+          <input id="search-input"
             type="text"
             value={q}
             onChange={(e) => setQ(e.target.value)}
             onKeyDown={onKeyDown}
             placeholder="search your images..."
-            className="w-full h-[50px] pl-[10px] pr-5 rounded-full bg-white/5 border border-white/10 text-white placeholder-zinc-500 placeholder:opacity-100 text-lg ring-focus"
+            className="bg-white/5 border border-white/10 text-white placeholder-zinc-500 placeholder:opacity-100 ring-focus"
           />
         </div>
 
-        <div className="text-center text-white/70 mt-[60px] text-sm">
+        <div id="search-examples" className="text-center text-white/70">
           {!results.length && !loading && !error && (
             <p>try something like "a sunset over mountains"</p>
           )}
@@ -64,12 +64,12 @@ const SearchPage = () => {
           </div>
         )}
 
-        <div className="flex flex-wrap justify-center gap-[10px] mt-10">
+        <div id="search-pills">
           {quickTerms.map((term) => (
             <button
               key={term}
               onClick={() => { setQ(term) }}
-              className="px-6 py-3 rounded-full bg-white/5 border border-white/10 text-white/80 hover:text-white transition-base"
+              className="search-pill bg-white/5 border border-white/10 text-white/80 hover:text-white transition-base"
             >
               {term}
             </button>
