@@ -23,6 +23,7 @@ router = APIRouter()
 ALLOWED_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.webp', '.heic', '.heif'}
 
 def _max_file_size_bytes() -> int:
+    #10 mb max file upload size, first read from env and default if not found
     try:
         mb = int(os.getenv("MAX_FILE_SIZE_MB", "10"))
     except ValueError:
