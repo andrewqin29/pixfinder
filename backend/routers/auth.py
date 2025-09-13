@@ -118,3 +118,18 @@ async def logout(request: Request, response: Response):
     
     response.delete_cookie("admin_session")
     return {"message": "Logged out successfully"} 
+
+
+@router.get("/status")
+async def status_check(request: Request):
+    """Return whether an admin session is active"""
+    session_id = request.cookies.get("admin_session")
+    valid = False
+    if session_id and session_id in active_sessions:
+        if datetime.utcnow() <= active_sessions[session_id]:
+            valid = True
+        else:
+            # expire if stale
+            del active_sessions[session_id]
+            valid = False
+    return {"logged_in": valid}
