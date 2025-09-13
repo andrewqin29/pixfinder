@@ -2,7 +2,7 @@
   /* nav */
   --nav-height: 56px;
   --nav-width: 75vw;         /* navbar inner width */
-  --nav-circle-size: 50px;   /* diameter (radius 25px) */
+  --nav-circle-size: 40px;   /* diameter (radius 20px) */
   --nav-circle-gap: 24px;    /* spacing between circles */
   --nav-circle-bg: #ffffff;  /* white circles */
   --nav-circle-icon: #0b0f15;/* dark icon */
@@ -76,18 +76,22 @@
   --nav-btn-size: 36px;       /* admin button diameter */
   --nav-btn-bg: #ffffff;      /* admin button background */
   --nav-btn-icon: #0b0f15;    /* admin button icon color */
-}
 
 #nav-bar { width: 100%; height: var(--nav-height); }
 
 /* New circle navbar layout */
-#nav-circles {
+#nav-flex {
   width: var(--nav-width);
   height: var(--nav-height);
   margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+}
+
+#nav-left-circles {
+  display: flex;
+  align-items: center;
   gap: var(--nav-circle-gap);
 }
 
