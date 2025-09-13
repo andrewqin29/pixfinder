@@ -2,19 +2,12 @@
   /* nav */
   --nav-height: 56px;
   --nav-width: 75vw;         /* navbar inner width */
-  --nav-circle-size: 40px;   /* diameter (radius 20px) */
-  --nav-circle-gap: 24px;    /* spacing between circles */
-  --nav-circle-bg: #ffffff;  /* white circles */
-  --nav-circle-icon: #0b0f15;/* dark icon */
-  --nav-active-ring: rgba(59,130,246,0.6);
-  --nav-active-ring-width: 2px;
-  --nav-gap: 15px;            /* spacing between brand/links */
-  --nav-padding-x: 16px;      /* horizontal padding */
-  --nav-font-size: 0.95rem;   /* link text size */
-  --nav-brand-size: 1rem;     /* brand text size */
-  --nav-btn-size: 36px;       /* admin button diameter */
-  --nav-btn-bg: #ffffff;      /* admin button background */
-  --nav-btn-icon: #0b0f15;    /* admin button icon color */
+  --nav-gap: 15px;           /* spacing between links */
+  --nav-padding-x: 16px;     /* horizontal padding */
+  --nav-font-size: 0.95rem;  /* link text size */
+  --nav-btn-size: 36px;      /* admin button diameter */
+  --nav-btn-bg: #ffffff;     /* admin button background */
+  --nav-btn-icon: #0b0f15;   /* admin button icon color */
 
   /* search */
   --search-width: 75vw;
@@ -77,37 +70,32 @@
   font-size: var(--pill-font-size);
 }
 
-/* Navbar variables and layout */
+/* Navbar layout */
 
 #nav-bar { width: 100%; height: var(--nav-height); }
 
-/* New circle navbar layout */
-#nav-flex {
+#nav-inner {
   width: var(--nav-width);
   height: var(--nav-height);
   margin: 0 auto;
+  padding: 0 var(--nav-padding-x);
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-#nav-left-circles {
-  display: flex;
-  align-items: center;
-  gap: var(--nav-circle-gap);
-}
+#nav-left { display: flex; align-items: center; gap: var(--nav-gap); }
+.nav-link { font-size: var(--nav-font-size); color: rgba(255,255,255,0.9); }
+.nav-link:hover { color: #fff; }
 
-.nav-circle {
-  width: var(--nav-circle-size);
-  height: var(--nav-circle-size);
+#nav-right { display: flex; align-items: center; }
+#nav-admin-btn {
+  width: var(--nav-btn-size);
+  height: var(--nav-btn-size);
   border-radius: 9999px;
-  background: var(--nav-circle-bg);
-  color: var(--nav-circle-icon);
+  background: var(--nav-btn-bg);
+  color: var(--nav-btn-icon);
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  border: 1px solid rgba(255,255,255,0.2);
 }
-.nav-circle svg { width: 22px; height: 22px; }
-.nav-circle.active { box-shadow: 0 0 0 var(--nav-active-ring-width) var(--nav-active-ring); }

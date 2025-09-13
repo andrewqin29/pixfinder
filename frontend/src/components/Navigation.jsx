@@ -73,24 +73,18 @@ const Navigation = () => {
 
   return (
     <nav id="nav-bar" className="fixed top-0 left-0 right-0 z-50 bg-black/40 backdrop-blur-md">
-      <div id="nav-flex">
-        <div id="nav-left-circles">
-          <Link to="/" className={`nav-circle ${isActive('/') ? 'active' : ''}`} title="Search" aria-label="Search">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="m21 21-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z" />
-            </svg>
-          </Link>
-          <Link to="/gallery" className={`nav-circle ${isActive('/gallery') ? 'active' : ''}`} title="Gallery" aria-label="Gallery">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h18M3 12h18M3 19h18" />
-            </svg>
-          </Link>
+      <div id="nav-inner">
+        <div id="nav-left">
+          <Link to="/" className={`nav-link ${isActive('/') ? 'text-white' : ''}`}>Search</Link>
+          <Link to="/gallery" className={`nav-link ${isActive('/gallery') ? 'text-white' : ''}`}>Gallery</Link>
         </div>
-        <button className="nav-circle" onClick={() => setShowUploadModal(true)} title="Admin Upload" aria-label="Admin Upload">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-          </svg>
-        </button>
+        <div id="nav-right">
+          <button id="nav-admin-btn" onClick={() => setShowUploadModal(true)} title="Upload (Admin only)" aria-label="Upload">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+          </button>
+        </div>
       </div>
 
       {/* Upload Modal */}
