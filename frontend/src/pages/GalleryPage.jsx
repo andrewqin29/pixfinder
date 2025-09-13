@@ -1,6 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { api } from '../lib/api'
-import Lightbox from '../components/Lightbox'
 
 const GalleryPage = () => {
   const [items, setItems] = useState([])
@@ -9,22 +8,19 @@ const GalleryPage = () => {
   const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [hasMore, setHasMore] = useState(true)
-  const [selected, setSelected] = useState(null)
-  const sentinelRef = useRef(null)
+  const [hasMore] = useState(false)
 
-  const load = async (p = 1, append = false) => {
+  const load = async (p = 1) => {
     if (loading) return
     setLoading(true)
     setError('')
     try {
       const res = await api.get('/images', { params: { page: p, page_size: pageSize } })
       const nextItems = res.data?.items || []
-      setItems((prev) => (append ? [...prev, ...nextItems] : nextItems))
+      setItems(nextItems)
       const totalCount = res.data?.total || 0
       setTotal(totalCount)
       setPage(res.data?.page || p)
-      setHasMore(p * pageSize < totalCount)
     } catch (e) {
       setError('failed to load images')
     } finally {
@@ -37,19 +33,7 @@ const GalleryPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // Infinite scroll
-  useEffect(() => {
-    const el = sentinelRef.current
-    if (!el) return
-    const observer = new IntersectionObserver((entries) => {
-      const entry = entries[0]
-      if (entry.isIntersecting && hasMore && !loading) {
-        load(page + 1, true)
-      }
-    }, { rootMargin: '400px' })
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [page, hasMore, loading])
+  
 
   const totalPages = Math.max(1, Math.ceil(total / pageSize))
 
@@ -65,16 +49,14 @@ const GalleryPage = () => {
         {error && <p className="text-center text-red-400">{error}</p>}
 
         {!!items.length && (
-          <div className="masonry mt-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
             {items.map((img) => (
-              <div key={img.id} className="masonry-item">
-                <button onClick={() => setSelected(img)} className="w-full text-left rounded-xl overflow-hidden card">
-                  <img loading="lazy" src={img.s3_url} alt={img.caption || img.filename} className="w-full h-auto object-cover" />
-                  <div className="p-3">
-                    <p className="text-sm text-white/90 truncate" title={img.caption}>{img.caption || 'no caption'}</p>
-                    <p className="text-xs text-white/60">{img.filename}</p>
-                  </div>
-                </button>
+              <div key={img.id} className="rounded-lg overflow-hidden border border-white/10 bg-black/30">
+                <img loading="lazy" src={img.s3_url} alt={img.caption || img.filename} className="w-full h-48 object-cover" />
+                <div className="p-3">
+                  <p className="text-sm text-white/90 truncate" title={img.caption}>{img.caption || 'no caption'}</p>
+                  <p className="text-xs text-white/60">{img.filename}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -87,17 +69,9 @@ const GalleryPage = () => {
           </div>
         )}
 
-        {/* Infinite scroll sentinel */}
-        <div ref={sentinelRef} className="h-10" />
         {loading && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="rounded-xl overflow-hidden skeleton aspect-square" />
-            ))}
-          </div>
+          <p className="text-center text-gray-300 mt-6">loading...</p>
         )}
-
-        <Lightbox open={!!selected} image={selected} onClose={() => setSelected(null)} />
       </div>
     </div>
   )
