@@ -1,9 +1,11 @@
 import os
 import logging
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from database import init_db
 from routers import search, auth, upload
+from routers import images as images_router
 from ml_models import load_models, clip_model, blip_model
 from faiss_manager import FAISSManager
 from dotenv import load_dotenv
@@ -42,10 +44,16 @@ if not faiss_index_path:
     faiss_index_path = os.path.join(data_dir, "faiss_index.index")
 faiss_manager = FAISSManager(index_path=faiss_index_path, s3_key=os.getenv("S3_FAISS_KEY"))
 
+# Serve local uploads for development/testing
+uploads_dir = "/app/uploads" if os.path.exists("/app") else "./uploads"
+os.makedirs(uploads_dir, exist_ok=True)
+app.mount("/uploads", StaticFiles(directory=uploads_dir), name="uploads")
+
 # Include routers
 app.include_router(auth.router, prefix="/auth", tags=["authentication"])
 app.include_router(search.router, prefix="/search", tags=["search"])
 app.include_router(upload.router, prefix="/upload", tags=["upload"])
+app.include_router(images_router.router, prefix="/images", tags=["images"]) 
 
 
 @app.on_event("startup")
