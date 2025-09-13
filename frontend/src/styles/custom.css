@@ -1,6 +1,11 @@
 :root {
   /* nav */
   --nav-height: 56px;
+  --nav-width: 75vw;         /* navbar inner width */
+  --nav-circle-size: 50px;   /* diameter (radius 25px) */
+  --nav-circle-gap: 24px;    /* spacing between circles */
+  --nav-circle-bg: #ffffff;  /* white circles */
+  --nav-circle-icon: #0b0f15;/* dark icon */
 
   /* search */
   --search-width: 75vw;
@@ -75,30 +80,27 @@
 
 #nav-bar { width: 100%; height: var(--nav-height); }
 
-#nav-inner {
-  max-width: 72rem; /* match container */
+/* New circle navbar layout */
+#nav-circles {
+  width: var(--nav-width);
   height: var(--nav-height);
   margin: 0 auto;
-  padding: 0 var(--nav-padding-x);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-#nav-left { display: flex; align-items: center; gap: var(--nav-gap); }
-
-#nav-brand { font-size: var(--nav-brand-size); font-weight: 600; color: #fff; }
-.nav-link { font-size: var(--nav-font-size); color: rgba(255,255,255,0.7); }
-.nav-link:hover { color: #fff; }
-
-#nav-right { display: flex; align-items: center; }
-#nav-admin-btn {
-  width: var(--nav-btn-size);
-  height: var(--nav-btn-size);
-  border-radius: 9999px;
-  background: var(--nav-btn-bg);
-  color: var(--nav-btn-icon);
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: var(--nav-circle-gap);
 }
+
+.nav-circle {
+  width: var(--nav-circle-size);
+  height: var(--nav-circle-size);
+  border-radius: 9999px;
+  background: var(--nav-circle-bg);
+  color: var(--nav-circle-icon);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.nav-circle svg { width: 22px; height: 22px; }
