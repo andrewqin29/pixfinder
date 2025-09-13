@@ -72,61 +72,43 @@ const Navigation = () => {
   }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-lg bg-zinc-900/80 border-b border-zinc-700/50 shadow-2xl">
+    <nav className="fixed top-0 left-0 right-0 z-50 glass">
       <div className="max-w-6xl mx-auto px-6">
-        <div className="flex items-center justify-between h-20">
-          
-          {/* Left - Logo/Brand */}
+        <div className="flex items-center justify-between h-16">
+          {/* Brand */}
           <div className="flex items-center">
-            <h1 className="text-xl font-bold text-white tracking-wider">PixFinder</h1>
+            <h1 className="text-base font-semibold tracking-wider text-white/90">PixFind</h1>
           </div>
-          
-          {/* Center - Navigation Links */}
-          <div className="flex items-center space-x-12">
+
+          {/* Center nav */}
+          <div className="flex items-center gap-6">
             <Link
               to="/"
-              className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
-                isActive('/') 
-                  ? 'bg-white/20 text-white shadow-xl border border-white/30 backdrop-blur-sm' 
-                  : 'text-gray-300 hover:text-white hover:bg-white/10 hover:backdrop-blur-sm'
+              className={`px-4 py-2 rounded-full transition-base ${
+                isActive('/') ? 'bg-white/10 text-white' : 'text-white/70 hover:text-white hover:bg-white/5'
               }`}
             >
               Search
             </Link>
             <Link
               to="/gallery"
-              className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
-                isActive('/gallery') 
-                  ? 'bg-white/20 text-white shadow-xl border border-white/30 backdrop-blur-sm' 
-                  : 'text-gray-300 hover:text-white hover:bg-white/10 hover:backdrop-blur-sm'
+              className={`px-4 py-2 rounded-full transition-base ${
+                isActive('/gallery') ? 'bg-white/10 text-white' : 'text-white/70 hover:text-white hover:bg-white/5'
               }`}
             >
               Gallery
             </Link>
           </div>
 
-          {/* Right - Upload Button */}
-          <div className="flex items-center">
+          {/* Right controls */}
+          <div className="flex items-center gap-3">
             <button
               onClick={() => setShowUploadModal(true)}
-              className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-600/20 
-                         backdrop-blur-sm border border-white/30 flex items-center justify-center 
-                         hover:from-blue-500/30 hover:to-purple-600/30 hover:scale-105 
-                         transition-all duration-300 shadow-xl hover:shadow-2xl"
+              className="w-10 h-10 rounded-full border border-white/20 bg-white/5 hover:bg-white/10 transition-base flex items-center justify-center"
               title="Upload (Admin only)"
             >
-              <svg 
-                className="w-6 h-6 text-white" 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
-              >
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth={2} 
-                  d="M12 4v16m8-8H4" 
-                />
+              <svg className="w-5 h-5 text-white/90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
               </svg>
             </button>
           </div>
@@ -136,7 +118,7 @@ const Navigation = () => {
       {/* Upload Modal */}
       {showUploadModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
-          <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full mx-4">
+          <div className="glass rounded-xl p-6 max-w-md w-full mx-4">
             <h3 className="text-lg font-semibold mb-4">Admin Upload</h3>
             {!loggedIn ? (
               <div>
@@ -146,20 +128,20 @@ const Navigation = () => {
                     placeholder="username"
                     value={loginUsername}
                     onChange={(e) => setLoginUsername(e.target.value)}
-                    className="w-full px-3 py-2 rounded bg-zinc-700 border border-zinc-600 text-white"
+                    className="w-full px-3 py-2 rounded bg-white/5 border border-white/10 text-white ring-focus"
                   />
                   <input
                     type="password"
                     placeholder="password"
                     value={loginPassword}
                     onChange={(e) => setLoginPassword(e.target.value)}
-                    className="w-full px-3 py-2 rounded bg-zinc-700 border border-zinc-600 text-white"
+                    className="w-full px-3 py-2 rounded bg-white/5 border border-white/10 text-white ring-focus"
                   />
                   {loginError && <p className="text-red-400 text-sm">{loginError}</p>}
                 </div>
                 <div className="mt-4 flex gap-2">
-                  <button onClick={doLogin} className="flex-1 bg-blue-600 hover:bg-blue-700 py-2 rounded-lg">login</button>
-                  <button onClick={() => setShowUploadModal(false)} className="flex-1 bg-zinc-700 py-2 rounded-lg">close</button>
+                  <button onClick={doLogin} className="flex-1 bg-blue-600 hover:bg-blue-700 py-2 rounded-lg transition-base">login</button>
+                  <button onClick={() => setShowUploadModal(false)} className="flex-1 bg-white/5 border border-white/10 py-2 rounded-lg transition-base">close</button>
                 </div>
               </div>
             ) : (
@@ -180,8 +162,8 @@ const Navigation = () => {
                   {uploadSuccess && <p className="text-green-400 text-sm">{uploadSuccess}</p>}
                 </div>
                 <div className="mt-4 flex gap-2">
-                  <button disabled={!selectedFile || uploading} onClick={doUpload} className="flex-1 bg-blue-600 disabled:opacity-50 hover:bg-blue-700 py-2 rounded-lg">upload</button>
-                  <button onClick={() => setShowUploadModal(false)} className="flex-1 bg-zinc-700 py-2 rounded-lg">close</button>
+                  <button disabled={!selectedFile || uploading} onClick={doUpload} className="flex-1 bg-blue-600 disabled:opacity-50 hover:bg-blue-700 py-2 rounded-lg transition-base">upload</button>
+                  <button onClick={() => setShowUploadModal(false)} className="flex-1 bg-white/5 border border-white/10 py-2 rounded-lg transition-base">close</button>
                 </div>
               </div>
             )}
