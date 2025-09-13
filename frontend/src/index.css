@@ -38,3 +38,62 @@ html, body {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.5);
 }
+
+/* Design tokens and utilities */
+.glass {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: saturate(140%) blur(10px);
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.ring-focus:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.35);
+}
+
+.transition-base {
+  transition: all 180ms ease;
+}
+
+/* Masonry layout */
+.masonry {
+  column-gap: 1rem;
+  column-count: 1;
+}
+@media (min-width: 640px) { /* sm */
+  .masonry { column-count: 2; }
+}
+@media (min-width: 1024px) { /* lg */
+  .masonry { column-count: 3; }
+}
+@media (min-width: 1280px) { /* xl */
+  .masonry { column-count: 4; }
+}
+.masonry-item {
+  break-inside: avoid;
+  margin-bottom: 1rem;
+}
+
+/* Skeleton shimmer */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.06);
+}
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  animation: shimmer 1.25s infinite;
+}
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
