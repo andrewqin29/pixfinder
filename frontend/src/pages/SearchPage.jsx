@@ -29,7 +29,7 @@ const SearchPage = () => {
 
   return (
     <div className="min-h-[calc(100vh-56px)] flex items-center justify-center px-4">
-      <div className="w-1/2">
+      <div className="w-3/4">
         {/* centered pill search */}
         <div className="relative w-full mx-auto">
           <input
@@ -38,7 +38,7 @@ const SearchPage = () => {
             onChange={(e) => setQ(e.target.value)}
             onKeyDown={onKeyDown}
             placeholder="search your images..."
-            className="w-full h-[10vh] pl-5 pr-14 rounded-full bg-white/5 border border-white/10 text-white placeholder-white/60 text-base ring-focus"
+            className="w-full h-[50px] pl-5 pr-14 rounded-full bg-white/5 border border-white/10 text-white placeholder-white/60 text-base ring-focus"
           />
           <button
             aria-label="search"
