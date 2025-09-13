@@ -28,24 +28,24 @@ const SearchPage = () => {
   const quickTerms = ['sunset', 'mountains', 'ocean', 'city', 'nature']
 
   return (
-    <div className="min-h-screen flex flex-col items-center px-4">
-      <div className="w-full max-w-4xl mt-28">
+    <div className="min-h-[calc(100vh-56px)] flex items-center justify-center px-4">
+      <div className="w-1/2">
         {/* centered pill search */}
-        <div className="relative w-full max-w-2xl mx-auto">
+        <div className="relative w-full mx-auto">
           <input
             type="text"
             value={q}
             onChange={(e) => setQ(e.target.value)}
             onKeyDown={onKeyDown}
             placeholder="search your images..."
-            className="w-full pl-5 pr-14 py-4 rounded-full bg-white/5 border border-white/10 text-white placeholder-white/60 text-base ring-focus"
+            className="w-full h-[10vh] pl-5 pr-14 rounded-full bg-white/5 border border-white/10 text-white placeholder-white/60 text-base ring-focus"
           />
           <button
             aria-label="search"
             onClick={onSearch}
-            className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-blue-600 hover:bg-blue-700 text-white transition-base"
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-blue-600 hover:bg-blue-700 text-white transition-base"
           >
-            <svg className="w-4 h-4 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="m21 21-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z" />
             </svg>
           </button>
@@ -90,4 +90,3 @@ const SearchPage = () => {
 }
 
 export default SearchPage
-
