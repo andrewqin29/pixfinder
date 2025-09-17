@@ -2,78 +2,64 @@ import { useEffect, useState } from 'react'
 import { api } from '../lib/api'
 
 const GalleryPage = () => {
-  const [items, setItems] = useState([])
-  const [page, setPage] = useState(1)
-  const [pageSize] = useState(20)
-  const [total, setTotal] = useState(0)
+  const [images, setImages] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [hasMore] = useState(false)
 
-  const load = async (p = 1) => {
-    if (loading) return
+  const fetchImages = async () => {
     setLoading(true)
     setError('')
     try {
-      const res = await api.get('/images', { params: { page: p, page_size: pageSize } })
-      const nextItems = res.data?.items || []
-      setItems(nextItems)
-      const totalCount = res.data?.total || 0
-      setTotal(totalCount)
-      setPage(res.data?.page || p)
-    } catch (e) {
-      setError('failed to load images')
+      const res = await api.get('/images', { params: { page: 1, page_size: 60 } })
+      setImages(res.data?.items || [])
+    } catch (_) {
+      setError('Unable to load the gallery.')
     } finally {
       setLoading(false)
     }
   }
 
   useEffect(() => {
-    load(1)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    fetchImages()
   }, [])
 
-  
-
-  const totalPages = Math.max(1, Math.ceil(total / pageSize))
-
   return (
-    <div className="min-h-screen px-4 py-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">image gallery</h1>
-          <p className="text-gray-400">browse all uploaded images</p>
-        </div>
+    <section className="gallery-page">
+      <header className="section-header">
+        <h1 className="section-title">Gallery</h1>
+        <p className="section-subtitle">Every image indexed with captions and embeddings.</p>
+      </header>
 
-        {loading && <p className="text-center text-gray-300">loading...</p>}
-        {error && <p className="text-center text-red-400">{error}</p>}
+      <div>
+        {loading && <p className="results-state">Loading...</p>}
+        {error && <p className="results-state error">{error}</p>}
 
-        {!!items.length && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
-            {items.map((img) => (
-              <div key={img.id} className="rounded-lg overflow-hidden border border-white/10 bg-black/30">
-                <img loading="lazy" src={img.s3_url} alt={img.caption || img.filename} className="w-full h-48 object-cover" />
-                <div className="p-3">
-                  <p className="text-sm text-white/90 truncate" title={img.caption}>{img.caption || 'no caption'}</p>
-                  <p className="text-xs text-white/60">{img.filename}</p>
+        {!loading && !error && images.length === 0 && (
+          <p className="results-state">No images yet.</p>
+        )}
+
+        {images.length > 0 && (
+          <div className="gallery-grid">
+            {images.map((image) => (
+              <article key={image.id} className="gallery-card">
+                <div className="gallery-image-wrapper">
+                  <img
+                    src={image.s3_url}
+                    alt={image.caption || image.filename}
+                    loading="lazy"
+                    className="gallery-image"
+                  />
                 </div>
-              </div>
+                <p className="gallery-caption" title={image.caption}>
+                  {image.caption || 'Untitled image'}
+                </p>
+                <p className="gallery-filename">{image.filename}</p>
+              </article>
             ))}
           </div>
         )}
-
-        {!loading && !items.length && (
-          <div className="text-center mt-12 text-gray-400">
-            <p className="text-lg mb-2">no images uploaded yet</p>
-            <p className="text-sm">upload some images to see them in the gallery</p>
-          </div>
-        )}
-
-        {loading && (
-          <p className="text-center text-gray-300 mt-6">loading...</p>
-        )}
       </div>
-    </div>
+    </section>
   )
 }
 

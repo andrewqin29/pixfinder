@@ -2,18 +2,19 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Navigation from './components/Navigation'
 import SearchPage from './pages/SearchPage'
 import GalleryPage from './pages/GalleryPage'
-import './App.css'
-import './styles/custom.css'
+import AdminPage from './pages/AdminPage'
+import './styles/app.css'
 
 function App() {
   return (
     <Router>
-      <div className="min-h-screen">
+      <div className="page-content">
         <Navigation />
-        <main className="pt-14">
+        <main>
           <Routes>
             <Route path="/" element={<SearchPage />} />
             <Route path="/gallery" element={<GalleryPage />} />
+            <Route path="/admin" element={<AdminPage />} />
           </Routes>
         </main>
       </div>

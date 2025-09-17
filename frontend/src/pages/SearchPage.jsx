@@ -1,83 +1,113 @@
 import { useState } from 'react'
 import { api } from '../lib/api'
 
+const quickTerms = ['Mountains', 'Ocean', 'Ducklings']
+
 const SearchPage = () => {
-  const [q, setQ] = useState('')
+  const [query, setQuery] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [results, setResults] = useState([])
 
-  const onSearch = async () => {
-    if (!q.trim()) return
+  const runSearch = async (value) => {
+    const nextQuery = value ?? query
+    const trimmed = nextQuery.trim()
+    if (!trimmed) return
+    setQuery(nextQuery)
     setLoading(true)
     setError('')
     try {
-      const res = await api.get('/search', { params: { q } })
+      const res = await api.get('/search', { params: { q: trimmed } })
       setResults(res.data?.results || [])
-    } catch (e) {
-      setError('search failed')
+    } catch (_) {
+      setError('Search failed. Please try again.')
     } finally {
       setLoading(false)
     }
   }
 
-  const onKeyDown = (e) => {
-    if (e.key === 'Enter') onSearch()
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      runSearch()
+    }
   }
 
-  const quickTerms = ['sunset', 'mountains', 'ocean', 'city', 'nature']
-
   return (
-    <div id="search-root" className="px-4">
-      <div id="search-container">
-        {/* centered pill search */}
-        <div className="relative w-full mx-auto">
-          <input id="search-input"
-            type="text"
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            onKeyDown={onKeyDown}
-            placeholder="search your images..."
-            className="bg-white/5 border border-white/10 text-white placeholder-zinc-500 placeholder:opacity-100 ring-focus"
-          />
-          {/* removed search icon per request */}
+    <section className="search-page">
+      <div className="search-hero">
+        <h1 className="search-title">Pique</h1>
+        <p className="search-subtext">
+          An intelligent photo gallery enabling semantic text-to-image retrieval using CLIP embeddings.
+        </p>
+
+        <div className="search-bar-row">
+          <div className="search-bar">
+            <input
+              type="text"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Search for an image in the gallery..."
+              className="search-input"
+              aria-label="Search"
+            />
+            <button
+              type="button"
+              className="search-button"
+              aria-label="Run search"
+              onClick={() => runSearch()}
+            >
+              <i className="bi bi-search" aria-hidden="true" />
+            </button>
+          </div>
         </div>
 
-        <div id="search-examples" className="text-center text-white/70">
-          {!results.length && !loading && !error && (
-            <p>try something like "a sunset over mountains"</p>
-          )}
-          {loading && <p>searching...</p>}
-          {error && <p className="text-red-400">{error}</p>}
+        <div className="search-hints">
+          <span className="search-hints-label">Try searching for</span>
+          <div className="quick-terms">
+            {quickTerms.map((term) => (
+              <button
+                key={term}
+                onClick={() => runSearch(term)}
+                className="quick-term"
+              >
+                {term}
+              </button>
+            ))}
+          </div>
         </div>
+      </div>
 
-        {!!results.length && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-6">
+      <div className="results-container">
+        {loading && <p className="results-state">Searching...</p>}
+        {error && <p className="results-state error">{error}</p>}
+
+        {results.length > 0 && (
+          <div className="results-grid">
             {results.map((item) => (
-              <div key={item.id} className="rounded-lg overflow-hidden border border-white/10 bg-black/30">
-                <img loading="lazy" src={item.s3_url} alt={item.caption || item.filename} className="w-full h-48 object-cover" />
-                <div className="p-3 text-left">
-                  <p className="text-sm text-white/90 truncate" title={item.caption}>{item.caption || 'no caption'}</p>
-                  <p className="text-xs text-white/50">{item.filename}</p>
+              <article key={item.id} className="result-card">
+                <div className="result-image-wrapper">
+                  <img
+                    src={item.s3_url}
+                    alt={item.caption || item.filename}
+                    loading="lazy"
+                    className="result-image"
+                  />
                 </div>
-              </div>
+                <p className="result-caption" title={item.caption}>
+                  {item.caption || 'Untitled image'}
+                </p>
+                <p className="result-filename">{item.filename}</p>
+              </article>
             ))}
           </div>
         )}
 
-        <div id="search-pills">
-          {quickTerms.map((term) => (
-            <button
-              key={term}
-              onClick={() => { setQ(term) }}
-              className="search-pill bg-white/5 border border-white/10 text-white/80 hover:text-white transition-base"
-            >
-              {term}
-            </button>
-          ))}
-        </div>
+        {!loading && !error && results.length === 0 && (
+          <div className="results-state">Start a search to explore the gallery.</div>
+        )}
       </div>
-    </div>
+    </section>
   )
 }
 
